@@ -74,14 +74,14 @@
     xhttp = new XMLHttpRequest();
     var lang = getParameterByName("lang");
     var searchword = getParameterByName("searchword");
-    xhttp.open("GET", "http://datenparty.org:1337/search?searchword=" + searchword + "&lang=" + lang)
+    xhttp.open("GET", "http://datenparty.org:1337/search?key=" + searchword + "&lang=" + lang)
     xhttp.send();
     xhttp.onreadystatechange = function () {
       if (xhttp.status == 200 && xhttp.readyState == 4) {
         json = JSON.parse(xhttp.responseText);
 
 
-        Reveal.add = function (content = '', index = -1) {
+        Reveal.add = function (content = '', index = 0) {
           dom = {},
 
             dom.slides = document.querySelector('.reveal .slides');
@@ -126,14 +126,20 @@
             if (dom.wrapper.querySelectorAll('.slides > section').length == index) document.querySelector('.navigate-right').classList.remove('enabled');
           }
         };
-        //Reveal.add(content = "<img src='hkl.jpg' />");
-        var x = "<h1>Einwohnerzahl: " + json.results.EinwohnerZahl + "</h1>";
-        Reveal.add(content = x);
-        //Reveal.add(content = "<img src='hkl.jpg' />");
-        Reveal.add(content = "<h1></h1>"+ json.results.Name)
+        Reveal.add(
+          content =
+            "<div id='BackgroundImage'>" +
+            "<h1 id='FrotpageÜberschrift'></h1>"+ json.results.Name +
+            "</div>"
 
+          ,0
+        );
+        Reveal.add(
+          content =
+            "<h1>Einwohnerzahl: " + json.results.EinwohnerZahl + "</h1>"
+          ,1
+        );
 
-        Reveal.add();
       }
     };
   });
