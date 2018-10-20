@@ -11,7 +11,28 @@
 </head>
 
 <body>
+<script>
+  function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+      results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  }
+  xhttp = new XMLHttpRequest();
+  var lang = getParameterByName("lang");
+  var searchword = getParameterByName("searchword");
+  xhttp.open("GET", "http://datenparty.org:1337/search?searchword=" + searchword + "&lang=" + lang)
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if(xhttp.status == 200 && xhttp.readyState == 4){
+      var json = JSON.parse(xhttp.responseText);
 
+      //TODO:
+    }
+  }
 </script>
 <div class="reveal">
 
