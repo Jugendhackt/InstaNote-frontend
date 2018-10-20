@@ -38,13 +38,12 @@
 
   <div class="slides">
 
-    <section hdata-background=""> 
-      <h2>lel</h2>
-      <p>There's no theme included, so it will fall back on browser defaults.</p>
+    <section hdata-background=""> //Es müssen zwei Website exitieren, damit die Website scrollbar ist
+      <h2>usless page 1</h2>
     </section>
 	
-	<section>
-
+	<section> //Es müssen zwei Website exitieren, damit die Website scrollbar ist
+    <h2>usless page 2</h2>
 	</section>
 
   </div>
@@ -105,8 +104,14 @@
         if (dom.wrapper.querySelectorAll('.slides > section').length == index) document.querySelector('.navigate-right').classList.remove('enabled');
       }
     };
+
+    // alles hier drüber nicht berühren
     //Reveal.add(content = "<img src='hkl.jpg' />");
+    Reveal.add(content = "<h1></h1>"+ results.Name)
+
 	Reveal.add(content = "<h1>Einwohnerzahl:</h1>" + werte.results.bindings[0].Fakten.Einwohnerzahl);
+	Reveal.add
+	Reveal.add();
   });
 
 </script>

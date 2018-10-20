@@ -1,33 +1,39 @@
 var werte ={
-   "head":{
-      "vars":[
-         "Name",
-         "Fakten",
-         "Bild",
-         "Karte"
-      ]
-   },
-   "results":{
-      "bindings":[
-         {
-            "Name":{
-               "xml:lang":"de",
-               "type":"literal",
-               "value":"Berlin"
-            },
-            "Fakten":{
-               "head":[
-                  "Einwohnerzahl",
-                  "Landeswappen",
-                  "Flagge"
-               ],
-               "Einwohnerzahl":"3611222",
-               "Landeswappen":"http://commons.wikimedia.org/wiki/Special:FilePath/Coat%20of%20arms%20of%20Berlin.svg",
-               "Flagge":"http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Berlin.svg"
-            },
-            "Karte":"http://commons.wikimedia.org/wiki/Special:FilePath/Locator%20map%20Berlin%20in%20Germany.svg",
-            "Bild":"http://commons.wikimedia.org/wiki/Special:FilePath/Cityscape%20Berlin.jpg"
-         }
-      ]
-   }
+{
+  "head": [
+    {
+      "name": "Name"
+    },
+    {
+      "name": "EinwohnerZahl"
+    },
+    {
+      "name": "Landeswappen"
+    },
+    {
+      "name": "Karte"
+    },
+    {
+      "name": "Bild"
+    },
+    {
+      "name": "Koordinaten"
+    },
+    {
+      "name": "Flagge"
+    },
+    {
+      "name": "description"
+    }
+  ],
+  "results": {
+    "Landeswappen": "http://commons.wikimedia.org/wiki/Special:FilePath/Seal%20of%20New%20York%20City.svg",
+    "Karte": "http://commons.wikimedia.org/wiki/Special:FilePath/Map%20of%20New%20York%20Highlighting%20New%20York%20City.svg",
+    "EinwohnerZahl": "8537673",
+    "Flagge": "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20New%20York%20City.svg",
+    "description": "Metropole an der Ostküste der Vereinigten Staaten",
+    "Koordinaten": "Point(-73.94 40.67)",
+    "Name": "New York"
+  }
+}
 } 
