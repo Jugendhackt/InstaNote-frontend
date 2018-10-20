@@ -3,7 +3,11 @@ nav {
 }
 .nav-wrapper .input-field input[type=search] {
   padding-left: calc(4rem + 15px);
+  width: calc(100% - 4rem - 15px)
 }
 .input-field input[type=search]+.label-icon {
   left: calc(1rem + 15px)
+}
+input {
+  color: #ffffff;
 }

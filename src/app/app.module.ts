@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
+import {FormsModule} from "@angular/forms";
+import {SearchService} from "./search.service";
 
 @NgModule({
   declarations: [
@@ -10,9 +12,10 @@ import { SearchbarComponent } from './searchbar/searchbar.component';
     SearchbarComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [SearchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
