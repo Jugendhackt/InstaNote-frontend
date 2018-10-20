@@ -1,0 +1,9 @@
+nav {
+  background-color: #2196f3;
+}
+.nav-wrapper .input-field input[type=search] {
+  padding-left: calc(4rem + 15px);
+}
+.input-field input[type=search]+.label-icon {
+  left: calc(1rem + 15px)
+}
