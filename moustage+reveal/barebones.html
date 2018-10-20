@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Barebone</title>
+
+		<link rel="stylesheet" href="reveal.css">
+	</head>
+
+	<body>
+	
+		<div class="reveal">
+
+			<div class="slides">
+
+				<section>
+					<h2>Barebones Presentation</h2>
+					<p>This example contains the bare minimum includes and markup required to run a reveal.js presentation.</p>
+				</section>
+
+				<section>
+					<h2>lel</h2>
+					<p>There's no theme included, so it will fall back on browser defaults.</p>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="reveal.js"></script>
+
+		<script>
+
+			Reveal.initialize();
+			        Reveal.addEventListener	( 'ready', function( event ) {
+            Reveal.add = function( content = '',index = -1 ){ 
+                dom = {},
+
+                dom.slides = document.querySelector( '.reveal .slides' );
+                var newSlide = document.createElement( 'section' );
+                if( index === -1 ) { //adding slide to end
+                    newSlide.classList.add( 'future' );
+                    dom.slides.appendChild(newSlide);
+                    document.querySelector( '.navigate-right' ).classList.add( 'enabled' ); //just enable it, even if it is
+                } else if( index > Reveal.getIndices().h ) {
+                    newSlide.classList.add( 'future' );
+                    dom.slides.insertBefore(newSlide,dom.slides.querySelectorAll('section:nth-child('+(index+1)+')')[0]);
+                } else if( index <= Reveal.getIndices().h ) {
+                    newSlide.classList.add( 'past' );
+                    dom.slides.insertBefore(newSlide,dom.slides.querySelectorAll('section:nth-child('+(index+1)+')')[0]);
+                    Reveal.next();
+                }
+                newSlide.innerHTML = content;
+            };
+            Reveal.remove = function( index = -1 ){ 
+                dom = {},
+
+                dom.wrapper = document.querySelector( '.reveal' );
+                dom.slides = document.querySelector( '.reveal .slides' );
+                var target = (dom.wrapper.querySelectorAll('.slides > section:nth-child('+(index+1)+')')[0]) ? dom.wrapper.querySelectorAll('.slides > section:nth-child('+(index+1)+')')[0] : false;
+
+                if( index === -1 ) {
+                    if (Reveal.isLastSlide()) Reveal.prev();
+                    dom.slides.removeChild(dom.wrapper.querySelectorAll('.slides > section')[dom.wrapper.querySelectorAll('.slides > section').length-1]);
+                    if (Reveal.isLastSlide()) document.querySelector( '.navigate-right' ).classList.remove( 'enabled' );
+                } else if( index > Reveal.getIndices().h && target ) {
+                    dom.slides.removeChild(target);
+                    if (Reveal.getIndices().h == dom.wrapper.querySelectorAll('.slides > section').length-1) document.querySelector( '.navigate-right' ).classList.remove( 'enabled' );
+                } else if( index < Reveal.getIndices().h && target ) {
+                    dom.slides.removeChild(target);
+                    location.hash = '/'+parseInt(Reveal.getIndices().h-1);
+                } else if( index == Reveal.getIndices().h && target ) {
+                    if (index == 0) {
+                        Reveal.next();
+                        document.querySelector( '.navigate-left' ).classList.remove( 'enabled' );
+                    } else Reveal.prev();
+                    dom.slides.removeChild(target);
+                    if( dom.wrapper.querySelectorAll('.slides > section').length == index) document.querySelector( '.navigate-right' ).classList.remove( 'enabled' );
+                }
+            };
+        } );
+			Reveal.add(content="hallo", 0);
+
+
+
+		</script>
+
+	</body>
+</html>
