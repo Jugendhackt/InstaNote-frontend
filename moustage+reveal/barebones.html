@@ -7,31 +7,33 @@
   <title>Barebone</title>
 
   <link rel="stylesheet" href="reveal.css">
+  
 </head>
 
 <body>
 
+</script>
 <div class="reveal">
 
   <div class="slides">
-    <section>
-      <!-- content slide 1 -->
+
+    <section hdata-background=""> 
+      <h2>lel</h2>
+      <p>There's no theme included, so it will fall back on browser defaults.</p>
     </section>
-    <section>
-      <section>
-        <!-- content slide 2.1 -->
-      </section>
-      <section>
-        <!-- content slide 2.2 -->
-      </section>
-    </section>
-  </div>
+	
+	<section>
+
+	</section>
 
   </div>
 
 </div>
+<script src="test.json">
+</script>
 
-<script src="reveal.js"></script>
+<script src="reveal.js">
+</script>
 
 <script>
 
@@ -82,11 +84,12 @@
         if (dom.wrapper.querySelectorAll('.slides > section').length == index) document.querySelector('.navigate-right').classList.remove('enabled');
       }
     };
-    Reveal.add("1", 0);
-    Reveal.add("2", 1);
+    //Reveal.add(content = "<img src='hkl.jpg' />");
+	Reveal.add(content = "<h1>Einwohnerzahl:</h1>" + werte.results.bindings[0].Fakten.Einwohnerzahl);
   });
 
 </script>
+
 
 </body>
 </html>
