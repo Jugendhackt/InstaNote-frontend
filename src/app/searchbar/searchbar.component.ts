@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {SearchService} from "../search.service";
+
+declare var $: any;
 
 @Component({
   selector: 'app-searchbar',
@@ -6,10 +9,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./searchbar.component.scss']
 })
 export class SearchbarComponent implements OnInit {
-
-  constructor() { }
+  searchval = "";
+  constructor(private searchService: SearchService) { }
 
   ngOnInit() {
+    $('#searchbar-input').focusout(() => {
+      this.submit()
+    })
   }
-
+  submit() {
+    this.searchService.sendSearch(this.searchval).then((res) => {
+      console.log(res)
+    });
+  }
 }
