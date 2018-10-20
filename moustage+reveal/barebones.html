@@ -11,24 +11,23 @@
 
 <body>
 
+</script>
 <div class="reveal">
 
   <div class="slides">
 
-    <section>
-      <h2>Barebones Presentation</h2>
-      <p>This example contains the bare minimum includes and markup required to run a reveal.js presentation.</p>
-    </section>
-
-    <section>
+    <section hdata-background=""> 
       <h2>lel</h2>
       <p>There's no theme included, so it will fall back on browser defaults.</p>
     </section>
+	
+	<section>
+	
+	</section>
 
   </div>
 
 </div>
-
 <script src="reveal.js"></script>
 
 <script>
@@ -80,10 +79,12 @@
         if (dom.wrapper.querySelectorAll('.slides > section').length == index) document.querySelector('.navigate-right').classList.remove('enabled');
       }
     };
-    Reveal.add(content = "hallo", 0);
+    Reveal.add(content = "<img src='hkl.jpg' />");
+	Reveal.add(content = "jkj");
   });
 
 </script>
+
 
 </body>
 </html>
