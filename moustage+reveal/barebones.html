@@ -57,61 +57,85 @@
 
 <script>
 
+  function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+      results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  }
+
+
   Reveal.initialize();
   Reveal.addEventListener('ready', function (event) {
-    Reveal.add = function (content = '', index = -1) {
-      dom = {},
 
-        dom.slides = document.querySelector('.reveal .slides');
-      var newSlide = document.createElement('section');
-      if (index === -1) { //adding slide to end
-        newSlide.classList.add('future');
-        dom.slides.appendChild(newSlide);
-        document.querySelector('.navigate-right').classList.add('enabled'); //just enable it, even if it is
-      } else if (index > Reveal.getIndices().h) {
-        newSlide.classList.add('future');
-        dom.slides.insertBefore(newSlide, dom.slides.querySelectorAll('section:nth-child(' + (index + 1) + ')')[0]);
-      } else if (index <= Reveal.getIndices().h) {
-        newSlide.classList.add('past');
-        dom.slides.insertBefore(newSlide, dom.slides.querySelectorAll('section:nth-child(' + (index + 1) + ')')[0]);
-        Reveal.next();
+    xhttp = new XMLHttpRequest();
+    var lang = getParameterByName("lang");
+    var searchword = getParameterByName("searchword");
+    xhttp.open("GET", "http://datenparty.org:1337/search?searchword=" + searchword + "&lang=" + lang)
+    xhttp.send();
+    xhttp.onreadystatechange = function () {
+      if (xhttp.status == 200 && xhttp.readyState == 4) {
+        json = JSON.parse(xhttp.responseText);
+
+
+        Reveal.add = function (content = '', index = -1) {
+          dom = {},
+
+            dom.slides = document.querySelector('.reveal .slides');
+          var newSlide = document.createElement('section');
+          if (index === -1) { //adding slide to end
+            newSlide.classList.add('future');
+            dom.slides.appendChild(newSlide);
+            document.querySelector('.navigate-right').classList.add('enabled'); //just enable it, even if it is
+          } else if (index > Reveal.getIndices().h) {
+            newSlide.classList.add('future');
+            dom.slides.insertBefore(newSlide, dom.slides.querySelectorAll('section:nth-child(' + (index + 1) + ')')[0]);
+          } else if (index <= Reveal.getIndices().h) {
+            newSlide.classList.add('past');
+            dom.slides.insertBefore(newSlide, dom.slides.querySelectorAll('section:nth-child(' + (index + 1) + ')')[0]);
+            Reveal.next();
+          }
+          newSlide.innerHTML = content;
+        };
+        Reveal.remove = function (index = -1) {
+          dom = {},
+
+            dom.wrapper = document.querySelector('.reveal');
+          dom.slides = document.querySelector('.reveal .slides');
+          var target = (dom.wrapper.querySelectorAll('.slides > section:nth-child(' + (index + 1) + ')')[0]) ? dom.wrapper.querySelectorAll('.slides > section:nth-child(' + (index + 1) + ')')[0] : false;
+
+          if (index === -1) {
+            if (Reveal.isLastSlide()) Reveal.prev();
+            dom.slides.removeChild(dom.wrapper.querySelectorAll('.slides > section')[dom.wrapper.querySelectorAll('.slides > section').length - 1]);
+            if (Reveal.isLastSlide()) document.querySelector('.navigate-right').classList.remove('enabled');
+          } else if (index > Reveal.getIndices().h && target) {
+            dom.slides.removeChild(target);
+            if (Reveal.getIndices().h == dom.wrapper.querySelectorAll('.slides > section').length - 1) document.querySelector('.navigate-right').classList.remove('enabled');
+          } else if (index < Reveal.getIndices().h && target) {
+            dom.slides.removeChild(target);
+            location.hash = '/' + parseInt(Reveal.getIndices().h - 1);
+          } else if (index == Reveal.getIndices().h && target) {
+            if (index == 0) {
+              Reveal.next();
+              document.querySelector('.navigate-left').classList.remove('enabled');
+            } else Reveal.prev();
+            dom.slides.removeChild(target);
+            if (dom.wrapper.querySelectorAll('.slides > section').length == index) document.querySelector('.navigate-right').classList.remove('enabled');
+          }
+        };
+        //Reveal.add(content = "<img src='hkl.jpg' />");
+        var x = "<h1>Einwohnerzahl: " + json.results.EinwohnerZahl + "</h1>";
+        Reveal.add(content = x);
+        //Reveal.add(content = "<img src='hkl.jpg' />");
+        Reveal.add(content = "<h1></h1>"+ json.results.Name)
+
+
+        Reveal.add();
       }
-      newSlide.innerHTML = content;
     };
-    Reveal.remove = function (index = -1) {
-      dom = {},
-
-        dom.wrapper = document.querySelector('.reveal');
-      dom.slides = document.querySelector('.reveal .slides');
-      var target = (dom.wrapper.querySelectorAll('.slides > section:nth-child(' + (index + 1) + ')')[0]) ? dom.wrapper.querySelectorAll('.slides > section:nth-child(' + (index + 1) + ')')[0] : false;
-
-      if (index === -1) {
-        if (Reveal.isLastSlide()) Reveal.prev();
-        dom.slides.removeChild(dom.wrapper.querySelectorAll('.slides > section')[dom.wrapper.querySelectorAll('.slides > section').length - 1]);
-        if (Reveal.isLastSlide()) document.querySelector('.navigate-right').classList.remove('enabled');
-      } else if (index > Reveal.getIndices().h && target) {
-        dom.slides.removeChild(target);
-        if (Reveal.getIndices().h == dom.wrapper.querySelectorAll('.slides > section').length - 1) document.querySelector('.navigate-right').classList.remove('enabled');
-      } else if (index < Reveal.getIndices().h && target) {
-        dom.slides.removeChild(target);
-        location.hash = '/' + parseInt(Reveal.getIndices().h - 1);
-      } else if (index == Reveal.getIndices().h && target) {
-        if (index == 0) {
-          Reveal.next();
-          document.querySelector('.navigate-left').classList.remove('enabled');
-        } else Reveal.prev();
-        dom.slides.removeChild(target);
-        if (dom.wrapper.querySelectorAll('.slides > section').length == index) document.querySelector('.navigate-right').classList.remove('enabled');
-      }
-    };
-
-    // alles hier drüber nicht berühren
-    //Reveal.add(content = "<img src='hkl.jpg' />");
-    Reveal.add(content = "<h1></h1>"+ results.Name)
-
-	Reveal.add(content = "<h1>Einwohnerzahl:</h1>" + werte.results.bindings[0].Fakten.Einwohnerzahl);
-	Reveal.add
-	Reveal.add();
   });
 
 </script>
