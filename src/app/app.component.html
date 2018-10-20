@@ -1,8 +1,14 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div>
   <app-searchbar></app-searchbar>
-  <div class="center">
-    <h2 class="thin">InstaNode</h2>
+  <div *ngIf="searchService.wasSearched" class="row">
+    <div class="center">
+      <h2 class="thin">InstaNode</h2>
+    </div>
+    <app-block-controller class="col s12 m6"></app-block-controller>
+  </div>
+  <div *ngIf="!searchService.wasSearched" class="row">
+    <img src="assets/insta-note-logo.png" alt="" class="logo">
   </div>
 </div>
 

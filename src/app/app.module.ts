@@ -5,11 +5,13 @@ import { AppComponent } from './app.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import {FormsModule} from "@angular/forms";
 import {SearchService} from "./search.service";
+import { BlockControllerComponent } from './block-controller/block-controller.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SearchbarComponent
+    SearchbarComponent,
+    BlockControllerComponent
   ],
   imports: [
     BrowserModule,

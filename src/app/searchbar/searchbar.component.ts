@@ -18,8 +18,6 @@ export class SearchbarComponent implements OnInit {
     })
   }
   submit() {
-    this.searchService.sendSearch(this.searchval).then((res) => {
-      console.log(res)
-    });
+    this.searchService.sendSearch(this.searchval);
   }
 }

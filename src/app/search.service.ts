@@ -5,13 +5,14 @@ import {environment} from "../environments/environment";
   providedIn: 'root'
 })
 export class SearchService {
+  public search;
+  public wasSearched: Boolean = false;
 
   constructor() { }
   public sendSearch(searchVal: String) {
-    return new Promise((resolve) => {
-      axios.get(environment.apiServer + "/search?searchword=" + searchVal + "&lang=de-at").then((res) => {
-        resolve(res.data.result)
-      })
+    axios.get(environment.apiServer + "/search?searchword=" + searchVal + "&lang=de").then((res) => {
+      this.wasSearched = true;
+      this.search = res.data.result;
     })
   }
 }
