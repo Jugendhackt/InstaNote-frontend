@@ -7,6 +7,7 @@
   <title>Barebone</title>
 
   <link rel="stylesheet" href="reveal.css">
+  
 </head>
 
 <body>
@@ -22,13 +23,17 @@
     </section>
 	
 	<section>
-	
+
 	</section>
 
   </div>
 
 </div>
-<script src="reveal.js"></script>
+<script src="test.json">
+</script>
+
+<script src="reveal.js">
+</script>
 
 <script>
 
@@ -79,8 +84,8 @@
         if (dom.wrapper.querySelectorAll('.slides > section').length == index) document.querySelector('.navigate-right').classList.remove('enabled');
       }
     };
-    Reveal.add(content = "<img src='hkl.jpg' />");
-	Reveal.add(content = "jkj");
+    //Reveal.add(content = "<img src='hkl.jpg' />");
+	Reveal.add(content = "<h1>Einwohnerzahl:</h1>" + werte.results.bindings[0].Fakten.Einwohnerzahl);
   });
 
 </script>
