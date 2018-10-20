@@ -7,44 +7,38 @@
   <title>Barebone</title>
 
   <link rel="stylesheet" href="reveal.css">
-  
+  <link rel="stylesheet" href="MainCSS.css">
+
 </head>
 
 <body>
-<script>
-  function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, '\\$&');
-    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-      results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, ' '));
-  }
-  xhttp = new XMLHttpRequest();
-  var lang = getParameterByName("lang");
-  var searchword = getParameterByName("searchword");
-  xhttp.open("GET", "http://datenparty.org:1337/search?searchword=" + searchword + "&lang=" + lang)
-  xhttp.send();
-  xhttp.onreadystatechange = function () {
-    if(xhttp.status == 200 && xhttp.readyState == 4){
-      var json = JSON.parse(xhttp.responseText);
 
-      //TODO:
-    }
-  }
-</script>
 <div class="reveal">
 
   <div class="slides">
 
-    <section hdata-background=""> //Es müssen zwei Website exitieren, damit die Website scrollbar ist
-      <h2>usless page 1</h2>
+    <section>
+      <div id=fotoSection1>
+      </div>
+      <p id="textSection1"></p>
     </section>
-	
-	<section> //Es müssen zwei Website exitieren, damit die Website scrollbar ist
-    <h2>usless page 2</h2>
-	</section>
+
+    <section>
+    <table>
+      <tr>
+        <td>Einwohner:</td>
+        <td id="einwohnerZahlSection2"></td>
+      </tr>
+      <tr>
+        <td>Koordinaten:</td>
+        <td id="koordinatenSection2"></td>
+      </tr>
+      <tr>
+        <td>Beschreibung:</td>
+        <td id="beschreibungSection2"></td>
+      </tr>
+    </table>
+    </section>
 
   </div>
 
@@ -73,15 +67,15 @@
 
     xhttp = new XMLHttpRequest();
     var lang = getParameterByName("lang");
-    var searchword = getParameterByName("searchword");
-    xhttp.open("GET", "http://datenparty.org:1337/search?key=" + searchword + "&lang=" + lang)
+    var key = getParameterByName("key");
+    xhttp.open("GET", "http://datenparty.org:1337/search?key=" + key + "&lang=" + lang)
     xhttp.send();
     xhttp.onreadystatechange = function () {
       if (xhttp.status == 200 && xhttp.readyState == 4) {
         json = JSON.parse(xhttp.responseText);
 
 
-        Reveal.add = function (content = '', index = 0) {
+        Reveal.add = function (content = '', index = -1) {
           dom = {},
 
             dom.slides = document.querySelector('.reveal .slides');
@@ -126,25 +120,32 @@
             if (dom.wrapper.querySelectorAll('.slides > section').length == index) document.querySelector('.navigate-right').classList.remove('enabled');
           }
         };
-        Reveal.add(
-          content =
-            "<div id='BackgroundImage'>" +
-            "<h1 id='FrotpageÜberschrift'></h1>"+ json.results.Name +
-            "</div>"
+        //Reveal.add(content = "<img src='hkl.jpg' />");
 
-          ,0
-        );
-        Reveal.add(
-          content =
-            "<h1>Einwohnerzahl: " + json.results.EinwohnerZahl + "</h1>"
-          ,1
-        );
 
+        var fotoSection1 = "<img src=\"" + json.results.Bild + "\"/>"; //Tietelbild wird gezogen
+        document.getElementById("fotoSection1").innerHTML = fotoSection1;
+
+        var textSection1 = "<h1>" + json.results.Name + "</h1>"; //Name der Stadt wird gezogen
+        document.getElementById("textSection1").innerHTML = textSection1;
+
+        var koordinatenSection2 = "" + json.results.Koordinaten; //Koordinaten der Stadt werden gezogen
+        document.getElementById("koordinatenSection2").innerHTML = koordinatenSection2;
+
+        var beschreibungSection2 = ""+ json.results.description; //Beschreibung der Stadt werden gezogen
+        document.getElementById("beschreibungSection2").innerHTML = beschreibungSection2;
+
+        var einwohnerZahlSection2 = "" + json.results.EinwohnerZahl; //Einwohner der Stadt werden gezogen
+        document.getElementById("einwohnerZahlSection2").innerHTML = einwohnerZahlSection2;
       }
     };
   });
 
 </script>
+
+
+</body>
+</html>
 
 
 </body>
