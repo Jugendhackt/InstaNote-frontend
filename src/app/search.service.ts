@@ -12,7 +12,7 @@ export class SearchService {
   public sendSearch(searchVal: String) {
     axios.get(environment.apiServer + "/search?searchword=" + searchVal + "&lang=de").then((res) => {
       this.wasSearched = true;
-      this.search = res.data.result;
+      this.search = res.data;
     })
   }
 }

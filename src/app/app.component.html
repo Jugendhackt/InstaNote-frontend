@@ -1,6 +1,5 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div>
-  <app-searchbar></app-searchbar>
   <div *ngIf="searchService.wasSearched" class="row">
     <div class="center">
       <h2 class="thin">InstaNode</h2>
@@ -10,5 +9,6 @@
   <div *ngIf="!searchService.wasSearched" class="row">
     <img src="assets/insta-note-logo.png" alt="" class="logo">
   </div>
+  <app-searchbar *ngIf="!searchService.wasSearched"></app-searchbar>
 </div>
 

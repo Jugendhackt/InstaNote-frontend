@@ -1,16 +1,9 @@
 <div>
   <div class="row">
-    <div class="col s12 m6">
-      <div class="card green darken-4 block-card active">
+    <div class="col s12 m6" *ngFor="let variable of searchService.search.sparql.head.variable">
+      <div class="card green darken-4 block-card active" [attr.data-name]="variable.name" (click)="change($event)">
         <div class="card-content white-text">
-          <span class="card-title">Fakten</span>
-        </div>
-      </div>
-    </div>
-    <div class="col s12 m6">
-      <div class="card green darken-4 block-card active">
-        <div class="card-content white-text">
-          <span class="card-title">Bild</span>
+          <span class="card-title">{{variable.name}}</span>
         </div>
       </div>
     </div>
