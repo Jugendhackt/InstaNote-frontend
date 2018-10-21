@@ -98,25 +98,25 @@
         };
 
         $('#fotoSection1').attr('src', json.results.Bild);
-        document.getElementById("textSection1").innerHTML = "<h1>" + json.results.Name + "</h1>";
+        document.getElementById("textSection1").innerHTML = "<h1>" + json.results.name + "</h1>";
 
         Reveal.add('<table>' +
           '        <tr>' +
-          '          <td>Einwohner:</td>' +
-          '          <td id="einwohnerZahlSection2">' + json.results.EinwohnerZahl + '</td>' +
+          '          <td>Population:</td>' +
+          '          <td>' + json.results.inhabitans + '</td>' +
           '        </tr>' +
           '        <tr>' +
-          '          <td>Beschreibung:</td>' +
-          '          <td id="beschreibungSection2">' + json.results.description + '</td>' +
+          '          <td>Description:</td>' +
+          '          <td>' + json.results.description + '</td>' +
           '        </tr>' +
           '        <tr>' +
-          '          <td>Fl&auml;che:</td>' +
-          '          <td id="beschreibungSection2">' + json.results.area + '</td>' +
+          '          <td>Area:</td>' +
+          '          <td>' + json.results.area + ' km&sup2;</td>' +
           '        </tr>' +
           '      </table>');
-        
+
         if(json.results.Karte !== undefined) {
-          Reveal.add('<img src="' + json.results.Karte + '"> ');
+          Reveal.add('<img src="' + json.results.map + '"> ');
         }
       })
     }
