@@ -17,23 +17,17 @@
 <body>
 
 <div class="reveal">
-
   <div class="slides">
-
     <section id="section1">
       <img src="" alt="" id="fotoSection1">
       <p id="textSection1"></p>
     </section>
-
   </div>
-
 </div>
 <script src="test.json">
 </script>
-
 <script src="reveal.js">
 </script>
-
 <script>
 
   function getParameterByName(name, url) {
@@ -102,13 +96,9 @@
             if (dom.wrapper.querySelectorAll('.slides > section').length == index) document.querySelector('.navigate-right').classList.remove('enabled');
           }
         };
-        //Reveal.add(content = "<img src='hkl.jpg' />");
 
-
-        var fotoSection1 = "<img src=\"" + json.results.Bild + "\"/>"; //Tietelbild wird gezogen
         $('#fotoSection1').attr('src', json.results.Bild);
-        var textSection1 = "<h1>" + json.results.Name + "</h1>"; //Name der Stadt wird gezogen
-        document.getElementById("textSection1").innerHTML = textSection1;
+        document.getElementById("textSection1").innerHTML = "<h1>" + json.results.Name + "</h1>";
 
         Reveal.add('<table>' +
           '        <tr>' +
@@ -119,8 +109,15 @@
           '          <td>Beschreibung:</td>' +
           '          <td id="beschreibungSection2">' + json.results.description + '</td>' +
           '        </tr>' +
-          '      </table>')
-        Reveal.add('<img src="' + json.results.Karte + '"> ')
+          '        <tr>' +
+          '          <td>Fl&auml;che:</td>' +
+          '          <td id="beschreibungSection2">' + json.results.area + '</td>' +
+          '        </tr>' +
+          '      </table>');
+        
+        if(json.results.Karte !== undefined) {
+          Reveal.add('<img src="' + json.results.Karte + '"> ');
+        }
       })
     }
   }
