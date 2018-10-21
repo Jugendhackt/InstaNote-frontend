@@ -7,6 +7,8 @@
   <title>Barebone</title>
 
   <link rel="stylesheet" href="reveal.css">
+  <link rel="stylesheet" href="MainCSS.css">
+
 </head>
 
 <body>
@@ -16,74 +18,135 @@
   <div class="slides">
 
     <section>
-      <h2>Barebones Presentation</h2>
-      <p>This example contains the bare minimum includes and markup required to run a reveal.js presentation.</p>
+      <div id=fotoSection1>
+      </div>
+      <p id="textSection1"></p>
     </section>
 
     <section>
-      <h2>lel</h2>
-      <p>There's no theme included, so it will fall back on browser defaults.</p>
+    <table>
+      <tr>
+        <td>Einwohner:</td>
+        <td id="einwohnerZahlSection2"></td>
+      </tr>
+      <tr>
+        <td>Koordinaten:</td>
+        <td id="koordinatenSection2"></td>
+      </tr>
+      <tr>
+        <td>Beschreibung:</td>
+        <td id="beschreibungSection2"></td>
+      </tr>
+    </table>
     </section>
 
   </div>
 
 </div>
+<script src="test.json">
+</script>
 
-<script src="reveal.js"></script>
+<script src="reveal.js">
+</script>
 
 <script>
 
+  function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+      results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  }
+
+
   Reveal.initialize();
   Reveal.addEventListener('ready', function (event) {
-    Reveal.add = function (content = '', index = -1) {
-      dom = {},
 
-        dom.slides = document.querySelector('.reveal .slides');
-      var newSlide = document.createElement('section');
-      if (index === -1) { //adding slide to end
-        newSlide.classList.add('future');
-        dom.slides.appendChild(newSlide);
-        document.querySelector('.navigate-right').classList.add('enabled'); //just enable it, even if it is
-      } else if (index > Reveal.getIndices().h) {
-        newSlide.classList.add('future');
-        dom.slides.insertBefore(newSlide, dom.slides.querySelectorAll('section:nth-child(' + (index + 1) + ')')[0]);
-      } else if (index <= Reveal.getIndices().h) {
-        newSlide.classList.add('past');
-        dom.slides.insertBefore(newSlide, dom.slides.querySelectorAll('section:nth-child(' + (index + 1) + ')')[0]);
-        Reveal.next();
+    xhttp = new XMLHttpRequest();
+    var lang = getParameterByName("lang");
+    var key = getParameterByName("key");
+    xhttp.open("GET", "http://datenparty.org:1337/search?key=" + key + "&lang=" + lang)
+    xhttp.send();
+    xhttp.onreadystatechange = function () {
+      if (xhttp.status == 200 && xhttp.readyState == 4) {
+        json = JSON.parse(xhttp.responseText);
+
+
+        Reveal.add = function (content = '', index = -1) {
+          dom = {},
+
+            dom.slides = document.querySelector('.reveal .slides');
+          var newSlide = document.createElement('section');
+          if (index === -1) { //adding slide to end
+            newSlide.classList.add('future');
+            dom.slides.appendChild(newSlide);
+            document.querySelector('.navigate-right').classList.add('enabled'); //just enable it, even if it is
+          } else if (index > Reveal.getIndices().h) {
+            newSlide.classList.add('future');
+            dom.slides.insertBefore(newSlide, dom.slides.querySelectorAll('section:nth-child(' + (index + 1) + ')')[0]);
+          } else if (index <= Reveal.getIndices().h) {
+            newSlide.classList.add('past');
+            dom.slides.insertBefore(newSlide, dom.slides.querySelectorAll('section:nth-child(' + (index + 1) + ')')[0]);
+            Reveal.next();
+          }
+          newSlide.innerHTML = content;
+        };
+        Reveal.remove = function (index = -1) {
+          dom = {},
+
+            dom.wrapper = document.querySelector('.reveal');
+          dom.slides = document.querySelector('.reveal .slides');
+          var target = (dom.wrapper.querySelectorAll('.slides > section:nth-child(' + (index + 1) + ')')[0]) ? dom.wrapper.querySelectorAll('.slides > section:nth-child(' + (index + 1) + ')')[0] : false;
+
+          if (index === -1) {
+            if (Reveal.isLastSlide()) Reveal.prev();
+            dom.slides.removeChild(dom.wrapper.querySelectorAll('.slides > section')[dom.wrapper.querySelectorAll('.slides > section').length - 1]);
+            if (Reveal.isLastSlide()) document.querySelector('.navigate-right').classList.remove('enabled');
+          } else if (index > Reveal.getIndices().h && target) {
+            dom.slides.removeChild(target);
+            if (Reveal.getIndices().h == dom.wrapper.querySelectorAll('.slides > section').length - 1) document.querySelector('.navigate-right').classList.remove('enabled');
+          } else if (index < Reveal.getIndices().h && target) {
+            dom.slides.removeChild(target);
+            location.hash = '/' + parseInt(Reveal.getIndices().h - 1);
+          } else if (index == Reveal.getIndices().h && target) {
+            if (index == 0) {
+              Reveal.next();
+              document.querySelector('.navigate-left').classList.remove('enabled');
+            } else Reveal.prev();
+            dom.slides.removeChild(target);
+            if (dom.wrapper.querySelectorAll('.slides > section').length == index) document.querySelector('.navigate-right').classList.remove('enabled');
+          }
+        };
+        //Reveal.add(content = "<img src='hkl.jpg' />");
+
+
+        var fotoSection1 = "<img src=\"" + json.results.Bild + "\"/>"; //Tietelbild wird gezogen
+        document.getElementById("fotoSection1").innerHTML = fotoSection1;
+
+        var textSection1 = "<h1>" + json.results.Name + "</h1>"; //Name der Stadt wird gezogen
+        document.getElementById("textSection1").innerHTML = textSection1;
+
+        var koordinatenSection2 = "" + json.results.Koordinaten; //Koordinaten der Stadt werden gezogen
+        document.getElementById("koordinatenSection2").innerHTML = koordinatenSection2;
+
+        var beschreibungSection2 = ""+ json.results.description; //Beschreibung der Stadt werden gezogen
+        document.getElementById("beschreibungSection2").innerHTML = beschreibungSection2;
+
+        var einwohnerZahlSection2 = "" + json.results.EinwohnerZahl; //Einwohner der Stadt werden gezogen
+        document.getElementById("einwohnerZahlSection2").innerHTML = einwohnerZahlSection2;
       }
-      newSlide.innerHTML = content;
     };
-    Reveal.remove = function (index = -1) {
-      dom = {},
-
-        dom.wrapper = document.querySelector('.reveal');
-      dom.slides = document.querySelector('.reveal .slides');
-      var target = (dom.wrapper.querySelectorAll('.slides > section:nth-child(' + (index + 1) + ')')[0]) ? dom.wrapper.querySelectorAll('.slides > section:nth-child(' + (index + 1) + ')')[0] : false;
-
-      if (index === -1) {
-        if (Reveal.isLastSlide()) Reveal.prev();
-        dom.slides.removeChild(dom.wrapper.querySelectorAll('.slides > section')[dom.wrapper.querySelectorAll('.slides > section').length - 1]);
-        if (Reveal.isLastSlide()) document.querySelector('.navigate-right').classList.remove('enabled');
-      } else if (index > Reveal.getIndices().h && target) {
-        dom.slides.removeChild(target);
-        if (Reveal.getIndices().h == dom.wrapper.querySelectorAll('.slides > section').length - 1) document.querySelector('.navigate-right').classList.remove('enabled');
-      } else if (index < Reveal.getIndices().h && target) {
-        dom.slides.removeChild(target);
-        location.hash = '/' + parseInt(Reveal.getIndices().h - 1);
-      } else if (index == Reveal.getIndices().h && target) {
-        if (index == 0) {
-          Reveal.next();
-          document.querySelector('.navigate-left').classList.remove('enabled');
-        } else Reveal.prev();
-        dom.slides.removeChild(target);
-        if (dom.wrapper.querySelectorAll('.slides > section').length == index) document.querySelector('.navigate-right').classList.remove('enabled');
-      }
-    };
-    Reveal.add(content = "hallo", 0);
   });
 
 </script>
+
+
+</body>
+</html>
+
 
 </body>
 </html>
