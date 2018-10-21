@@ -103,7 +103,7 @@
         Reveal.add('<table>' +
           '        <tr>' +
           '          <td>Population:</td>' +
-          '          <td>' + json.results.inhabitans + '</td>' +
+          '          <td>' + json.results.inhabitants + '</td>' +
           '        </tr>' +
           '        <tr>' +
           '          <td>Description:</td>' +
@@ -115,7 +115,7 @@
           '        </tr>' +
           '      </table>');
 
-        if(json.results.Karte !== undefined) {
+        if(json.results.map !== undefined) {
           Reveal.add('<img src="' + json.results.map + '"> ');
         }
       })
