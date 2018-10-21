@@ -6,8 +6,11 @@
 
   <title>Barebone</title>
 
-  <link rel="stylesheet" href="reveal.css">
+  <link rel="stylesheet" href="https://cdn.labcode.de/fonts/roboto/roboto.css">
   <link rel="stylesheet" href="MainCSS.css">
+  <link rel="stylesheet" href="reveal.css">
+  <script src="https://cdn.labcode.de/libs/jquery/3.3.1/jquery.min.js"
+          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
 </head>
 
@@ -17,27 +20,9 @@
 
   <div class="slides">
 
-    <section>
-      <div id=fotoSection1>
-      </div>
+    <section id="section1">
+      <img src="" alt="" id="fotoSection1">
       <p id="textSection1"></p>
-    </section>
-
-    <section>
-    <table>
-      <tr>
-        <td>Einwohner:</td>
-        <td id="einwohnerZahlSection2"></td>
-      </tr>
-      <tr>
-        <td>Koordinaten:</td>
-        <td id="koordinatenSection2"></td>
-      </tr>
-      <tr>
-        <td>Beschreibung:</td>
-        <td id="beschreibungSection2"></td>
-      </tr>
-    </table>
     </section>
 
   </div>
@@ -61,19 +46,16 @@
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
   }
 
-
-  Reveal.initialize();
-  Reveal.addEventListener('ready', function (event) {
-
-    xhttp = new XMLHttpRequest();
-    var lang = getParameterByName("lang");
-    var key = getParameterByName("key");
-    xhttp.open("GET", "http://datenparty.org:1337/search?key=" + key + "&lang=" + lang)
-    xhttp.send();
-    xhttp.onreadystatechange = function () {
-      if (xhttp.status == 200 && xhttp.readyState == 4) {
-        json = JSON.parse(xhttp.responseText);
-
+  xhttp = new XMLHttpRequest();
+  var lang = getParameterByName("lang");
+  var key = getParameterByName("key");
+  xhttp.open("GET", "http://datenparty.org:1337/search?key=" + key + "&lang=" + lang)
+  xhttp.send();
+  xhttp.onreadystatechange = function () {
+    if (xhttp.status == 200 && xhttp.readyState == 4) {
+      json = JSON.parse(xhttp.responseText);
+      Reveal.initialize();
+      Reveal.addEventListener('ready', function (event) {
 
         Reveal.add = function (content = '', index = -1) {
           dom = {},
@@ -124,22 +106,24 @@
 
 
         var fotoSection1 = "<img src=\"" + json.results.Bild + "\"/>"; //Tietelbild wird gezogen
-        document.getElementById("fotoSection1").innerHTML = fotoSection1;
-
+        $('#fotoSection1').attr('src', json.results.Bild);
         var textSection1 = "<h1>" + json.results.Name + "</h1>"; //Name der Stadt wird gezogen
         document.getElementById("textSection1").innerHTML = textSection1;
 
-        var koordinatenSection2 = "" + json.results.Koordinaten; //Koordinaten der Stadt werden gezogen
-        document.getElementById("koordinatenSection2").innerHTML = koordinatenSection2;
-
-        var beschreibungSection2 = ""+ json.results.description; //Beschreibung der Stadt werden gezogen
-        document.getElementById("beschreibungSection2").innerHTML = beschreibungSection2;
-
-        var einwohnerZahlSection2 = "" + json.results.EinwohnerZahl; //Einwohner der Stadt werden gezogen
-        document.getElementById("einwohnerZahlSection2").innerHTML = einwohnerZahlSection2;
-      }
-    };
-  });
+        Reveal.add('<table>' +
+          '        <tr>' +
+          '          <td>Einwohner:</td>' +
+          '          <td id="einwohnerZahlSection2">' + json.results.EinwohnerZahl + '</td>' +
+          '        </tr>' +
+          '        <tr>' +
+          '          <td>Beschreibung:</td>' +
+          '          <td id="beschreibungSection2">' + json.results.description + '</td>' +
+          '        </tr>' +
+          '      </table>')
+        Reveal.add('<img src="' + json.results.Karte + '"> ')
+      })
+    }
+  }
 
 </script>
 

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiServer: "http://100.100.230.80:2000"
+  apiServer: "http://datenparty.org:1337"
 };
 
 /*

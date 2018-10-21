@@ -18,6 +18,6 @@ export class SearchbarComponent implements OnInit {
     })
   }
   submit() {
-    this.searchService.sendSearch(this.searchval);
+    window.location.href = "/assets/presentation/presentation.html?key="+this.searchval+'&lang=de'
   }
 }
